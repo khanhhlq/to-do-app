@@ -1,7 +1,42 @@
-const form = document.getElementById("form")
-const input = document.getElementById("input")
-const button = document.getElementById("button")
-const todo = document.getElementById("todo")
+const container = document.createElement("div")
+container.classList.add("container")
+document.body.appendChild(container)
+
+const todos = document.createElement("div")
+todos.classList.add("todo")
+container.appendChild(todos)
+
+const h1 = document.createElement("h1")
+h1.textContent = "🧠 To do list 📃"
+todos.appendChild(h1)
+
+const p = document.createElement("p")
+p.textContent = "⛅ What do you want to get done today?"
+todos.appendChild(p)
+
+const form = document.createElement("form")
+todos.appendChild(form)
+
+const input = document.createElement("input")
+input.setAttribute("type", "text")
+input.setAttribute("placeholder", "👉 Enter task")
+form.appendChild(input)
+
+const br = document.createElement("br")
+form.appendChild(br)
+
+const button = document.createElement("button")
+button.setAttribute("id", "button")
+button.textContent = "Submit"
+form.appendChild(button)
+
+const listTodo = document.createElement("div")
+listTodo.classList.add("list-todo")
+container.appendChild(listTodo)
+
+const todo = document.createElement("ul")
+todo.setAttribute("id", "todo")
+listTodo.appendChild(todo)
 
 form.addEventListener("submit", (event) => {
     event.preventDefault()
@@ -11,7 +46,7 @@ form.addEventListener("submit", (event) => {
 let todoList = []
 
 const deleteBtn = (index) => {
-    todoList.splice(index, 1);
+    todoList.splice(index, 1)
     localStorage.setItem('todos', JSON.stringify(todoList))
     render()
 }
@@ -19,7 +54,7 @@ const deleteBtn = (index) => {
 const addTodo = () => {
     const newTodo = input.value
 
-    if (!newTodo) return console.log("No value! ❌") || alert("No value! ❌")
+    if (!newTodo) return alert("No value! ❌")
     todoList.push({
         text: newTodo,
         completed: false
@@ -73,11 +108,11 @@ const render = () => {
                 li.classList.add("completed")
                 li.classList.remove("uncompleted")
                 checkbox.checked = todoList[i].completed
-            } else{
-                li.classList.add("uncompleted")
-                li.classList.remove("completed")
+            } else
+                li.classList.add("uncompleted"),
+                li.classList.remove("completed"),
                 checkbox.checked = todoList[i].completed
-            }
+
             localStorage.setItem('todos', JSON.stringify(todoList))
         })
 
