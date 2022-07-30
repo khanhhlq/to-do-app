@@ -17,10 +17,20 @@ todos.appendChild(p)
 const form = document.createElement("form")
 todos.appendChild(form)
 
+const getValue = document.createElement("div")
+getValue.classList.add("get-value")
+form.appendChild(getValue)
+
 const input = document.createElement("input")
 input.setAttribute("type", "text")
 input.setAttribute("placeholder", "👉 Enter task")
-form.appendChild(input)
+getValue.appendChild(input)
+
+const description = document.createElement("input")
+description.setAttribute("type", "text")
+description.setAttribute("placeholder", "📃 Description")
+getValue.appendChild(description)
+
 
 const br = document.createElement("br")
 form.appendChild(br)
@@ -53,16 +63,19 @@ const deleteBtn = (index) => {
 
 const addTodo = () => {
     const newTodo = input.value
+    const newDesc = description.value
 
-    if (!newTodo) return alert("No value! ❌")
+    if (!newTodo && !newDesc) return alert("No value or description! ❌")
     todoList.push({
         text: newTodo,
+        desc: newDesc,
         completed: false
     })
 
     localStorage.setItem("todos", JSON.stringify(todoList))
 
     input.value = ""
+    description.value = ""
 
     render()
 }
@@ -75,11 +88,16 @@ const render = () => {
         let li = document.createElement("li")
         li.classList.add("todolist")
         todo.appendChild(li)
-        li.innerHTML = `${todoList[i].text}`
+        li.innerHTML = `${"▪ " + todoList[i].text }`
+
+        let textDesc = document.createElement("p")
+        textDesc.classList.add("desc")
+        textDesc.innerHTML = `${todoList[i].desc}`
+        todo.appendChild(textDesc)
 
         let div = document.createElement("div")
         div.classList.add("tools")
-        
+
         let checkbox = document.createElement("input")
         checkbox.type = "checkbox"
         checkbox.style.cursor = "pointer"
@@ -109,11 +127,16 @@ const render = () => {
             if (todoList[i].completed) {
                 li.classList.add("completed")
                 li.classList.remove("uncompleted")
+                textDesc.classList.add("completed")
+                textDesc.classList.remove("uncompleted")
                 checkbox.checked = todoList[i].completed
-            } else
-                li.classList.add("uncompleted"),
-                li.classList.remove("completed"),
+            } else {
+                li.classList.add("uncompleted")
+                li.classList.remove("completed")
+                textDesc.classList.add("uncompleted")
+                textDesc.classList.remove("completed")
                 checkbox.checked = todoList[i].completed
+            }
 
             localStorage.setItem('todos', JSON.stringify(todoList))
         })
