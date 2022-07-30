@@ -78,6 +78,8 @@ const render = () => {
         li.innerHTML = `${todoList[i].text}`
 
         let div = document.createElement("div")
+        div.classList.add("tools")
+        
         let checkbox = document.createElement("input")
         checkbox.type = "checkbox"
         checkbox.style.cursor = "pointer"

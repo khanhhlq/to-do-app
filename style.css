@@ -10,15 +10,13 @@ body {
 
 .container {
   text-align: center;
-  width: 40%;
   margin: auto;
+  width: 40%;
   color: #181818;
-  min-height: 90vh;
-  margin-top: 2%;
+  padding: 30px 30px;
 }
 
 .todo {
-  width: 100%;
   padding-bottom: 15px;
   background: #3366ff;
   border-top-left-radius: 20px;
@@ -65,7 +63,7 @@ input {
 .list-todo {
   height: 60vh;
   background-color: #ffffff;
-  overflow-x: scroll;
+  overflow-y: scroll;
 }
 
 #todo {
@@ -85,7 +83,9 @@ input {
   margin-bottom: 15px;
   border-bottom: 1px solid #777777;
   padding-bottom: 8px;
+  word-break: break-all;
 }
+
 
 #todo li.completed {
   text-decoration: line-through;
@@ -98,6 +98,13 @@ input {
 
 #todo li input {
   margin-right: 10px;
+}
+
+.tools{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 16px;
 }
 
 ::placeholder {
@@ -120,4 +127,25 @@ input {
   color: black;
   border: none;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 1200px){
+  .container {
+    width: 90%;
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 1000px){
+  .container {
+    width: 90%;
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  .container {
+    width: 90%;
+    padding: 0;
+  }
 }
