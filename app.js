@@ -62,16 +62,7 @@ form.addEventListener("submit", (event) => {
     addTodo()
 })
 
-let todoList = [],
-    dataTask = []
-
-dataTask.push({
-    totalTask: 0,
-    totalTaskChecked: 0,
-    totalTaskUnchecked: 0
-})
-
-localStorage.setItem('dataList', JSON.stringify(dataTask))
+let todoList = []
 
 const deleteBtn = (index) => {
     todoList.splice(index, 1)
@@ -103,13 +94,24 @@ const addTodo = () => {
 
     render()
 }
+
+let dataTask = [{
+    totalTask: 0,
+    totalTaskChecked: 0,
+    totalTaskUnchecked: 0
+}]
+
+
+
+sumTaskChecked.innerHTML = `${"Total task checked: " + "<b>" + dataTask[0].totalTask + "</b>"}`
+localStorage.setItem('dataList', JSON.stringify(dataTask))
+
+
 const render = () => {
     todo.innerHTML = null
     todoList = JSON.parse(localStorage.getItem("todos")) || []
-    dataTask = JSON.parse(localStorage.getItem("dataList")) || []
-
+    console.log(todoList)
     sumTask.innerHTML = `${"Total task: " + "<b>" + todoList.length + "</b>" + "</br>"}`
-    sumTaskChecked.innerHTML = `${"Total task checked: " + "<b>" + todoList.length + "</b>"}`
 
     for (let i = 0; i < todoList.length; i++){
         let li = document.createElement("li")
@@ -145,16 +147,16 @@ const render = () => {
             textDesc.classList.add("completed")
             textDesc.classList.remove("uncompleted")
             checkbox.checked = todoList[i].completed
+            dataTask[0].totalTaskChecked++
         } else if (todoList[i].completed == false){
             li.classList.add("uncompleted")
             li.classList.remove("completed")
             textDesc.classList.add("uncompleted")
             textDesc.classList.remove("completed")
             checkbox.checked = todoList[i].completed
+            dataTask[0].totalTaskUnchecked++
         }
         
-        localStorage.setItem('dataList', JSON.stringify(dataTask))
-
         checkbox.addEventListener("click", (event) => {
             todoList[i].completed = event.target.checked
             if (todoList[i].completed) {
@@ -170,20 +172,8 @@ const render = () => {
                 textDesc.classList.remove("completed")
                 checkbox.checked = todoList[i].completed
             }
-
             localStorage.setItem('todos', JSON.stringify(todoList))
         })
-        dataTask[0].totalTask = todoList.length
-        localStorage.setItem('dataList', JSON.stringify(dataTask))
-
-        // if (todoList[i].completed == 1){
-        //     dataTask[0].totalTaskChecked++
-        // } else if (todoList[i].completed == 0){
-        //     dataTask[0].totalTaskUnchecked++
-        // }
-
-        
-
     }   
 }
 
