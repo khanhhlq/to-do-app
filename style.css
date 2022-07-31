@@ -72,7 +72,7 @@ input {
 }
 
 .list-todo {
-  height: 60vh;
+  height: 57vh;
   background-color: #ffffff;
   overflow-y: scroll;
   border-bottom-left-radius: 20px;
