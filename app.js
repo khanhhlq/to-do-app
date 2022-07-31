@@ -71,6 +71,7 @@ const editBtn = (index) => {
     let newTitleEdit = prompt("New title? ✅")
     let newDescEdit = prompt("New description? ✅")
 
+    if (newDescEdit == null && newTitleEdit == null) return
     if (newTitleEdit == "" && newDescEdit == ""){
         alert("No value fill in Title and Desciption. Old Value will return 💘")
         return todoList[index].text && todoList[index].desc
@@ -86,6 +87,7 @@ const editBtn = (index) => {
 const deleteBtn = (index) => {
     todoList.splice(index, 1)
     localStorage.setItem('todos', JSON.stringify(todoList))
+    getDataList()
     render()
 }
 
@@ -110,6 +112,8 @@ const addTodo = () => {
 
     input.value = ""
     description.value = ""
+
+    getDataList()
     render()
 }
 
