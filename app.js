@@ -31,6 +31,16 @@ description.setAttribute("type", "text")
 description.setAttribute("placeholder", "📃 Description")
 getValue.appendChild(description)
 
+const printData = document.createElement("div")
+printData.classList.add("print-data")
+form.appendChild(printData)
+
+const sumTask = document.createElement("span")
+printData.appendChild(sumTask)
+
+const sumTaskChecked = document.createElement("span")
+printData.appendChild(sumTaskChecked)
+
 const br = document.createElement("br")
 form.appendChild(br)
 
@@ -52,7 +62,16 @@ form.addEventListener("submit", (event) => {
     addTodo()
 })
 
-let todoList = []
+let todoList = [],
+    dataTask = []
+
+dataTask.push({
+    totalTask: 0,
+    totalTaskChecked: 0,
+    totalTaskUnchecked: 0
+})
+
+localStorage.setItem('dataList', JSON.stringify(dataTask))
 
 const deleteBtn = (index) => {
     todoList.splice(index, 1)
@@ -64,7 +83,13 @@ const addTodo = () => {
     const newTodo = input.value
     const newDesc = description.value
 
-    if (!newTodo && !newDesc) return alert("No value or description! ❌")
+    if (!newTodo && !newDesc)
+        return alert("No value: title and description for your task! ❌")
+    else if (!newTodo)
+        return alert("No value: title task! ❌")
+    else if (!newDesc)
+        return alert("No value: description ❌")
+
     todoList.push({
         text: newTodo,
         desc: newDesc,
@@ -78,10 +103,13 @@ const addTodo = () => {
 
     render()
 }
-
 const render = () => {
     todo.innerHTML = null
     todoList = JSON.parse(localStorage.getItem("todos")) || []
+    dataTask = JSON.parse(localStorage.getItem("dataList")) || []
+
+    sumTask.innerHTML = `${"Total task: " + "<b>" + todoList.length + "</b>" + "</br>"}`
+    sumTaskChecked.innerHTML = `${"Total task checked: " + "<b>" + todoList.length + "</b>"}`
 
     for (let i = 0; i < todoList.length; i++){
         let li = document.createElement("li")
@@ -111,16 +139,22 @@ const render = () => {
         div.appendChild(btn)
         li.appendChild(div)
 
-        if (todoList[i].completed) {
+        if (todoList[i].completed == true) {
             li.classList.add("completed")
             li.classList.remove("uncompleted")
+            textDesc.classList.add("completed")
+            textDesc.classList.remove("uncompleted")
             checkbox.checked = todoList[i].completed
-        } else{
+        } else if (todoList[i].completed == false){
             li.classList.add("uncompleted")
             li.classList.remove("completed")
+            textDesc.classList.add("uncompleted")
+            textDesc.classList.remove("completed")
             checkbox.checked = todoList[i].completed
         }
         
+        localStorage.setItem('dataList', JSON.stringify(dataTask))
+
         checkbox.addEventListener("click", (event) => {
             todoList[i].completed = event.target.checked
             if (todoList[i].completed) {
@@ -139,6 +173,16 @@ const render = () => {
 
             localStorage.setItem('todos', JSON.stringify(todoList))
         })
+        dataTask[0].totalTask = todoList.length
+        localStorage.setItem('dataList', JSON.stringify(dataTask))
+
+        // if (todoList[i].completed == 1){
+        //     dataTask[0].totalTaskChecked++
+        // } else if (todoList[i].completed == 0){
+        //     dataTask[0].totalTaskUnchecked++
+        // }
+
+        
 
     }   
 }
