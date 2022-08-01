@@ -71,10 +71,19 @@ const editBtn = (index) => {
     let newTitleEdit = prompt("New title? ✅")
     let newDescEdit = prompt("New description? ✅")
 
-    if (newDescEdit == null && newTitleEdit == null) return
+    if (newTitleEdit == null && newDescEdit == null) return alert("Canceled edit ✅")
+    else if (newTitleEdit != null && newDescEdit == null){
+        newDescEdit = todoList[index].desc
+        todoList[index].text = newTitleEdit
+        localStorage.setItem("todos", JSON.stringify(todoList))
+    } else if (newTitleEdit == null && newDescEdit != null){
+        newTitleEdit = todoList[index].text
+        todoList[index].desc = newDescEdit
+        localStorage.setItem("todos", JSON.stringify(todoList))
+    }
+
     if (newTitleEdit == "" && newDescEdit == ""){
         alert("No value fill in Title and Desciption. Old Value will return 💘")
-        return todoList[index].text && todoList[index].desc
     } else{
         todoList[index].text = newTitleEdit
         todoList[index].desc = newDescEdit
@@ -94,13 +103,31 @@ const deleteBtn = (index) => {
 const addTodo = () => {
     const newTodo = input.value
     const newDesc = description.value
-
+    
     if (!newTodo && !newDesc)
         return alert("No value: title and description for your task! ❌")
     else if (!newTodo)
         return alert("No value: title task! ❌")
     else if (!newDesc)
         return alert("No value: description ❌")
+    
+    todoList = JSON.parse(localStorage.getItem("todos")) || []
+    for (let i = 0; i < todoList.length; i++){
+        if (todoList[i].text.toLocaleLowerCase() == newTodo.toLocaleLowerCase() && todoList[i].desc.toLocaleLowerCase() == newDesc.toLocaleLowerCase()){
+            alert("Title and description available ❗")
+            input.value = ""
+            description.value = ""
+            return null
+        } else if (todoList[i].text.toLocaleLowerCase() == newTodo.toLocaleLowerCase()){
+            alert("Title available ❗")
+            input.value = ""
+            return null
+        } else if (todoList[i].desc.toLocaleLowerCase() == newDesc.toLocaleLowerCase()){
+            alert("Description available ❗")
+            description.value = ""
+            return null
+        } 
+    } 
 
     todoList.push({
         text: newTodo,
